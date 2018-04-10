@@ -1,0 +1,77 @@
+#!/usr/bin/env ruby
+
+
+# $LOAD_PATH << './lib'
+
+require 'optparse'
+
+require 'colorize'
+
+require 'stress_stats/remote_test'
+# require 'stress_stat'
+# require 'sadf_json_parser'
+
+
+if __FILE__ == $0
+    options = {}
+
+    opt_parser = OptionParser.new do |opt|
+        opt.banner = "Usage: remote_stress_test.rb -r HOST -l LOCAL_COMMAND [-s SAR_OPTS] [--sar-freq NUM]"
+        opt.separator("")
+
+        opt.on("-r","--remote-host HOST", "Remote host to connect with ssh") do |host|
+            options[:remote_host] = host
+        end
+
+        opt.on("-l", "--local-cmd CMD", "Local command to run during sar") do |cmd|
+            options[:local_cmd] = cmd
+        end
+
+        opt.on("-s", "--sar-options SAR_OPTIONS",
+               "Sar command line options of what stats to capture during test.", "Default is '-A'") do |clopts|
+            options[:sar_stats] = clopts
+        end
+
+        opt.on("--sar-freq NUM", "Interval between Sar captures in seconds. Default is 2") do |interval|
+            options[:sar_freq] = interval
+        end
+
+        opt.on("-u", "--setup CMD", "Command to be executed remotelly prior to test",
+                                    "More than one of this option may be specified") do |cmd|
+            options[:setup] = [] unless options.has_key?(:setup)
+            options[:setup] << cmd
+        end
+
+        opt.on("-h","--help", "Show this help") do
+            puts opt_parser
+            exit
+        end
+    end
+
+
+
+    opt_parser.parse!
+
+    puts options
+
+    subj = StressStats::RemoteTest.new(options)
+
+    subj.benchmk
+
+    puts "RESULTS!!!!".colorize(:light_cyan)
+    # puts "Running command '#{subj.sadf_cmd}' on remote host"
+    # puts subj.fetch_results
+    results = subj.fetch_results
+    unless results.nil?
+        File.open('sar-results.json', 'w') do |f|
+            f.write(results)
+        end
+        puts 'Results output into sar-results.json'
+    else
+        puts "Couldn't retrieve json from remote host"
+    end
+
+    # Send to parser
+    # parser = Sadf::Parser.new(File.read('sar-results.json'))
+
+end
