@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Remote System Statistics Gathering}
   spec.description   = %q{Gather sysstats statistics from a remote host for the duration of a command}
-  spec.homepage      = "http://github.com"
+  spec.homepage      = "https://github.com/blotta/stress_stats"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
