@@ -32,7 +32,7 @@ if __FILE__ == $0
             options[:sar_stats] = clopts
         end
 
-        opt.on("--sar-freq NUM", "Interval between Sar captures in seconds. Default is 2") do |interval|
+        opt.on("--sar-interval NUM", "Interval between Sar captures in seconds. Default is 2") do |interval|
             options[:sar_freq] = interval
         end
 
