@@ -36,4 +36,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "net-ssh", "~> 4.2"
   spec.add_dependency "colorize", "~> 0.8"
+
 end
