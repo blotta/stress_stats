@@ -20,17 +20,17 @@ Or install it yourself as:
 
 ## Usage
 
+The installation will generate an executable
+
 ```sh
 
-$ bundle exec stressstats \
+$ stressstats \
     --remote-host <remote-ssh-host> \
     --local-cmd '<command>' \
     --setup "do_some_task_before.sh" \
     --setup 'do_a_second_task_before.sh'
 
 ```
-
-
 
 Where:
 
